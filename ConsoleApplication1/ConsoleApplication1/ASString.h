@@ -18,7 +18,7 @@ public:
 
 	~ASString();
 
-	ASString operator=(const ASString & val);
+	ASString &operator=(const ASString & val);
 
 	char operator[](int index);
 
@@ -38,12 +38,16 @@ public:
 
 	int capacity();
 
+	int currentCount();
+
+	int createdCount();
+
 	const char * c_str();
 
 private:
+	//static int current;
+	//static int created;
 	char * str;
-	int strLen;
+	int strLen = 0;
 	int cap = 20;
-	char alphebet[27] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', '\0' };
-	//char alphebet[] = "abcdefghijklmnopqrstuvwxyz";
 };

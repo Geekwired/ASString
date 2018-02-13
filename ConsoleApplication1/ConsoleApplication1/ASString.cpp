@@ -19,14 +19,19 @@ using std::ostream;
 using std::istream;
 
 ASString::ASString() {
-	str = new char[0];
-	//cap = 10;
-	//strLen = 12;
-	//str = _strdup("Hello world\0");
+	str = new char[cap];
+	strLen = 0;
+	str[strLen] = '\0';
 }
 
 ASString::ASString(const ASString & input) {
-	str = input.str;
+	//delete[] str;
+	cap = input.cap;
+	str = new char[cap];
+	strLen = input.strLen;
+	for (int i = 0; i <= strLen; i++) {
+		str[i] = input.str[i];
+	}
 }
 
 ASString::ASString(const char * input) {
@@ -47,15 +52,19 @@ ASString::ASString(const char * input) {
 }
 
 ASString::~ASString() {
-	cout << "The destructor for " << str << "Got called" << endl << endl;
+	//current--;
 	delete[] str;
 }
 
-ASString ASString::operator=(const ASString & val)
+ASString& ASString::operator=(const ASString & val)
 {
+	if (this == &val)
+		return *this;
 	delete[] str;
 	str = new char[val.cap];
-	for (int i = 0; i < val.strLen; i++)
+	strLen = val.strLen;
+	cap = val.cap;
+	for (int i = 0; i <= val.strLen; i++)
 		str[i] = val.str[i];
 
 	return *this;
@@ -71,19 +80,20 @@ istream & operator >>(istream & istr, ASString &myStr)
 	int end = 0;
 
 	if (istr >> word) {
-		for (int i = 0; word[i] != '\0'; i++) {
+		int i = 0;
+		for (i = 0; word[i] != '\0'; i++) {
 			if (i % 20 == 0 && i != 0)
 				myStr.cap += 20;
 		}
-		delete[] myStr.str;
+		end = i;
+		//delete[] myStr.str;
 		myStr.str = new char[myStr.cap];
 
-		for (int i = 0; i < myStr.cap; i++) {
-			myStr.str[i] = word[i];
-			end = i;
+		for (int j = 0; j <= end; j++) {
+			myStr.str[j] = word[j];
 		}
 	}
-	myStr.strLen = end + 1;
+	myStr.strLen = end;
 	return istr;
 }
 
@@ -137,16 +147,17 @@ bool ASString::operator==(ASString & val) {
 
 ASString ASString::operator+(ASString & argStr)
 {
-	char* tempArr = new char[strLen];
-	str = new char[strLen];
+	char* tempArr = new char[cap];
+	str = new char[cap];
 	int len = strLen + argStr.strLen;
 
 	for (int i = 0; i < strLen; i++)
 		str[i] = tempArr[i];
 
-	for (int i = strLen; i < len; i++)
+	for (int i = strLen; i <= len; i++)
 		str[i] = argStr.str[i];
 
+	strLen = len;
 	return *this;
 }
 
@@ -156,6 +167,14 @@ int ASString::length() {
 
 int ASString::capacity() {
 	return cap;
+}
+
+int ASString::currentCount() {
+	return 0;
+}
+
+int ASString::createdCount() {
+	return 0;
 }
 
 const char * ASString::c_str() {
