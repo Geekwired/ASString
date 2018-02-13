@@ -102,7 +102,6 @@ ostream & operator << (ostream & ostr, ASString & myStr) {
 	return ostr;
 }
 
-
 bool ASString::operator<(ASString & val) {
 	if (this->strLen > val.strLen) {
 		for (int i = 0; i < strLen; i++)
@@ -145,7 +144,7 @@ bool ASString::operator==(ASString & val) {
 	return false;
 }
 
-ASString ASString::operator+(ASString & argStr)
+ASString &ASString::operator+(ASString & argStr)
 {
 	char* tempArr = new char[cap];
 	str = new char[cap];
@@ -168,11 +167,9 @@ int ASString::length() {
 int ASString::capacity() {
 	return cap;
 }
-
 int ASString::currentCount() {
 	return 0;
 }
-
 int ASString::createdCount() {
 	return 0;
 }

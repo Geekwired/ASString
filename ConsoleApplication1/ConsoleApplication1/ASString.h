@@ -32,7 +32,7 @@ public:
 
 	bool operator ==(ASString &val);
 
-	ASString operator +(ASString &argStr);
+	ASString &operator +(ASString &argStr);
 
 	int length();
 
